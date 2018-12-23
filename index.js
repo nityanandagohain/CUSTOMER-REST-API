@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(ejwt({secret: config.JWT_SECRET}).unless({path: ['/users/register','/users/auth']}));
 
 //Connect to mongo
-mongoose.connect(config.MONGODB_URI, {useNewUrlParser: true})
+mongoose.connect(config.MONGODB_URI, {useCreateIndex: true,useNewUrlParser: true})
     .then(() => console.log("Mongodb connected"))
     .catch(err => console.log(err));
 

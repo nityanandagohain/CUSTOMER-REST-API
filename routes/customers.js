@@ -9,12 +9,11 @@ const Customer = require("../models/customer");
 // @access  Protected
 router.get("/", async (req, res) => {
   try {
-    console.log("In customer");
     const customers = await Customer.find({});
     res.send(customers);
   } catch (err) {
     res.status(404).json({
-      message: "Error! something went wrong"
+      "message": "Error! something went wrong"
     });
   }
 });
@@ -28,7 +27,7 @@ router.get("/:id", async (req, res) => {
     res.send(customer);
   } catch (err) {
     res.status(404).json({
-      message: "Error! something went wrong"
+      "message": "Error! something went wrong"
     });
   }
 });
@@ -37,13 +36,13 @@ router.get("/:id", async (req, res) => {
 // @desc    Add a Customer
 // @headers [{"key":"Content-Type","value":"application/json","description":""}]
 //          [{"key":"Authorization","value":"Bearer <token>","description":""}]
-// @body    email, password, body
+// @body    name, email
 // @access  Protected
 router.post("/", async (req, res) => {
   // Check for json
   if (!req.is("application/json")) {
     res.status(404).json({
-      message: "Expected Json"
+      "message": "Expected Json"
     });
   }
   const customer = new Customer({
@@ -55,12 +54,11 @@ router.post("/", async (req, res) => {
     const newCustomer = await customer.save();
     res.status(201); //created
     res.json({
-      message: "Customer Added",
-      authData: authData
+      "message": "Customer Added",
     });
   } catch (err) {
     res.status(404).json({
-      message: "Error! something went wrong"
+      "message": "Error! something went wrong"
     });
   }
 });
@@ -69,13 +67,12 @@ router.post("/", async (req, res) => {
 // @desc    Update a Customer 
 // @headers [{"key":"Content-Type","value":"application/json","description":""}]
 //          [{"key":"Authorization","value":"Bearer <token>","description":""}]
-// @body    id
 // @access  Protected
 router.put("/:id", async (req, res) => {
   //Check for json
   if (!req.is("application/json")) {
     res.status(404).json({
-      message: "Error! Expected Json"
+      "message": "Error! Expected Json"
     });
   }
   try {
@@ -86,7 +83,7 @@ router.put("/:id", async (req, res) => {
     res.sendStatus(200); //created
   } catch (err) {
     res.status(404).json({
-      message: `No customer with id: ${req.param.id}`
+      "message": `No customer with id: ${req.param.id}`
     });
   }
 });
@@ -94,7 +91,6 @@ router.put("/:id", async (req, res) => {
 // @route   DELETE /customers/:id
 // @desc    Delete a Customer 
 // @headers [{"key":"Authorization","value":"Bearer <token>","description":""}]
-// @body    email, password
 // @access  Protected
 router.delete("/:id", async (req, res) => {
   try {
@@ -104,7 +100,7 @@ router.delete("/:id", async (req, res) => {
     });
   } catch (err) {
     res.status(404).json({
-      message: "Error! something went wrong"
+      "message": "Error! something went wrong"
     });
   }
 });

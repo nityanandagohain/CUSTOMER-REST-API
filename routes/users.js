@@ -13,28 +13,29 @@ const config = require("../config");
 // @access  Public
 router.post("/register", (req, res) => {
   // Register User
-  const { email, password } = req.body;
-  const user = new User({
-    email,
-    password
-  });
-  // Encrypt the password and store it.
-  bcrypt.genSalt(10, (err, salt) => {
-    bcrypt.hash(user.password, salt, async (err, hash) => {
-      // Hash password
-      user.password = hash;
-      // Save the user
-      try {
-        const newUser = await user.save();
-        res.sendStatus(201);
-      } catch (err) {
-        res.sendStatus(403).json({
-          message: "Error Creating User"
-        });
-      }
+    const { email, password } = req.body;
+    const user = new User({
+      email,
+      password
     });
-  });
-});
+    // Encrypt the password and store it.
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(user.password, salt, async (err, hash) => {
+        // Hash password
+        user.password = hash;
+        // Save the user
+        try {
+          const newUser = await user.save();
+          res.sendStatus(201);
+        } catch (err) {
+          res.status(403).json({
+            message: "Error Creating User"
+          });
+        }
+      });
+    });
+  }
+);
 
 // @route   POST /users/auth
 // @desc    Authenticates a user and returns an accesstoken valid for 15min
@@ -56,7 +57,9 @@ router.post("/auth", async (req, res) => {
     res.send({ iat, exp, token });
   } catch (err) {
     // user unauthorised
-    res.sendStatus(403).send("Error authentication");
+    res.status(403).json({
+      message: "Error authentication"
+    });
   }
 });
 
